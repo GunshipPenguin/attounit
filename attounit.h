@@ -100,8 +100,8 @@ extern int curr_test_num;
   int num_test_cases = 0; \
   int num_assertions = 0; \
   int num_failed_assertions = 0; \
-  int curr_test_num = 0;
-  struct test_info tests[MAX_NUM_TESTS];
+  int curr_test_num = 0; \
+  struct test_info tests[MAX_NUM_TESTS]; \
   int main() { \
     for (curr_test_num=0;curr_test_num<num_test_cases;curr_test_num++) { \
       tests[curr_test_num].setup(); \
@@ -111,8 +111,10 @@ extern int curr_test_num;
     if (num_failed_assertions == 0) { \
       printf(GREEN FOOTER_STRING RESET); \
       printf(GREEN "✓ All assertions passed" RESET " (%d assertions in %d test cases)\n", num_assertions, num_test_cases); \
+      return 0; \
     } else { \
       printf(RED FOOTER_STRING RESET); \
       printf(RED "✗ %d assertions failed\n" RESET, num_failed_assertions); \
+      return 1; \
     } \
   }
