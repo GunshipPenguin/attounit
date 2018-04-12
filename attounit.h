@@ -35,10 +35,10 @@ extern int curr_test_num;
   num_assertions ++; \
   if (!(expr)) { \
     num_failed_assertions ++; \
-    fprintf(stderr, RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
-    fprintf(stderr, "\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
-    fprintf(stderr, "\t" #expr "\n"); \
-    fprintf(stderr, "\tExpected " #a_fmt " " #desc " " #b_fmt "\n", a, b); \
+    printf(RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
+    printf("\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
+    printf("\t" #expr "\n"); \
+    printf("\tExpected " #a_fmt " " #desc " " #b_fmt "\n", a, b); \
   } \
 } while(0)
 
@@ -46,10 +46,10 @@ extern int curr_test_num;
   num_assertions ++; \
   if (!(expr)) { \
     num_failed_assertions ++; \
-    fprintf(stderr, RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
-    fprintf(stderr, "\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
-    fprintf(stderr, "\t" #expr "\n"); \
-    fprintf(stderr, "\tExpected " #val_fmt " " #desc "\n", val); \
+    printf(RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
+    printf("\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
+    printf("\t" #expr "\n"); \
+    printf("\tExpected " #val_fmt " " #desc "\n", val); \
   } \
 } while(0)
 
