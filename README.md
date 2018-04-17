@@ -76,6 +76,8 @@ AttoUnit provides the following assertion macros:
 
 - `ASSERT_TRUE(val)`
   - Assert that val is true (ie. not 0)
+- `ASSERT_FALSE(val)`
+  - Assert that val is false (ie. 0)
 - `ASSERT_NULL(val)`
 	- Assert that the given value is equal to `NULL`
 - `ASSERT_NOT_NULL(val)`
