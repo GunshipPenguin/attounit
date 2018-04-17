@@ -1,3 +1,10 @@
+/*
+ * AttoUnit - A tiny header only unit testing framework for C
+ * https://github.com/GunshipPenguin/attounit
+ * ------------------------------------------------------------
+ * Copyright (c) 2018 Rhys Rustad-Elliott
+ * Distributed under the MIT license, see accompanying file LICENSE
+ */
 #include <stdio.h>
 #include <string.h>
 
