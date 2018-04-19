@@ -47,7 +47,7 @@ an entry point for your testing binary).
 
 Here's an example testing the strtol standard library function:
 
-```
+```C
 #include "attounit.h"
 #include <stdlib.h>
 
@@ -97,7 +97,7 @@ failures in another format (eg. when comparing 2 float values), use the
 assertion macro of the same name with the `_FMT` postfix. These macros take a third
 parameter that will let you provide a format specifier. For example:
 
-```
+```C
 float f1 = 2.1;
 float f2 = 2.5;
 ASSERT_GREATER_FMT(f1, f2, %f);
