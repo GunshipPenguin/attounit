@@ -1,51 +1,48 @@
 # AttoUnit
 
-[Atto = 10^-18](https://en.wikipedia.org/wiki/Atto-)
+([Atto = 10^-18](https://en.wikipedia.org/wiki/Atto-))
 
-An extremely small (~100 lines), easy to use header only unit testing framework
-for C. Outputs test results in a way intended to make things easy to debug:
+A tiny (~100 lines), easy to use, header only unit testing framework for C.
 
-```
-✗ Assertion failed in test/strtol_test.c
-	Suite: strtol, Case: strtol_parses_integer
-	res == 123
-	Expected 0 to equal 123
-✗ Assertion failed in test/strtol_test.c
-	Suite: strtol, Case: strtol_parses_integer_with_leading_space
-	res == 0
-	Expected 5 to equal 0
-=========================================================
-✗ 2 assertions failed
-```
+Originally created to test [my Altair 8800 / Intel 8080
+emulator](https://github.com/gunshippenguin/altair), AttoUnit was created with
+three main goals in mind:
+
+- Be incredibly quick and easy to set up
+- Output test failures verbosely such that they can be quickly debugged
+- Minimize boilerplate
 
 ## Installation
 
 Just include `attounit.h` in all your test source files and you're good to go.
 
-Note that AttoUnit requires a compiler that supports GNU C extensions.
+Note that AttoUnit requires a compiler that supports
+[GNU C extensions](https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html).
 
 ## Usage
 
 AttoUnit separates test code into test suites, each of which is contained in one
 source file. At the top of your source file should be the macro `TEST_SUITE`,
-which takes exactly 1 argument, the name of the test suite. This can be any
+which takes exactly one argument, the name of the test suite. This can be any
 valid C identifier.
 
-Following `TEST_SUITE`, will be the `BEFORE_EACH` and `AFTER_EACH` macros. Like
-in many other testing frameworks, these let you define a block of code to be run
-before and after each test case. Note that due to limitations of C macros, these
-**have to** be present in each test suite source file, even if they contain no
-code.
+Following `TEST_SUITE`, should be two macros, `BEFORE_EACH` and `AFTER_EACH`.
+Like most other testing frameworks, these let you define a block of code to be
+run before and after each test case. Note that due to limitations of C macros,
+these **have to** be present in each test suite source file, even if they
+contain no code.
 
 Following this, are one or more `TEST_CASE` macros, each taking one argument,
 the name of the test (again this can be any valid C identifier). Within each
 test case, you can use any of the assertion macros AttoUnit provides you (see
 below).
 
-The macro `TEST_MAIN()` must appear exactly once in your code (this expands to
-an entry point for your testing binary).
+The macro `TEST_MAIN()` must appear exactly once in your code. This expands to
+an entry point for your testing binary containing code that automatically runs
+all defined test cases.
 
-Here's an example testing the strtol standard library function:
+Here's an example of how you would use AttoUnit to test the strtol standard
+library function:
 
 ```C
 #include "attounit.h"
@@ -70,6 +67,22 @@ TEST_CASE(strtol_parses_integer_with_leading_space) {
 TEST_MAIN()
 ```
 
+If both these tests were to fail, AttoUnit would output something like the
+following:
+
+```
+✗ Assertion failed in test/strtol_test.c
+	Suite: strtol, Case: strtol_parses_integer
+	res == 123
+	Expected 0 to equal 123
+✗ Assertion failed in test/strtol_test.c
+	Suite: strtol, Case: strtol_parses_integer_with_leading_space
+	res == 0
+	Expected 5 to equal 0
+=========================================================
+✗ 2 assertions failed
+```
+
 ## Assertion Macros
 
 AttoUnit provides the following assertion macros:
@@ -91,14 +104,14 @@ AttoUnit provides the following assertion macros:
 - `ASSERT_LESS(a, b)` / `ASSERT_LESS_FMT(a, b, fmt)`
 	- Assert that a is less than b using the `<` operator
 
-Note that when outputting a failure, values are by default outputted as signed
-integers using the `%d` format specifier to printf. If you want to output
+Note that when outputting a failure, values are by default output as signed
+integers using the `%d` format specifier to printf. If you want to print
 failures in another format (eg. when comparing 2 float values), use the
-assertion macro of the same name with the `_FMT` postfix. These macros take a third
-parameter that will let you provide a format specifier. For example:
+assertion macro of the same name with the `_FMT` postfix. These macros take a
+third parameter that will let you provide a format specifier. For example:
 
 ```C
-float f1 = 2.1;
+float f1 = 0.5;
 float f2 = 2.5;
 ASSERT_GREATER_FMT(f1, f2, %f);
 ```
@@ -116,4 +129,5 @@ will output:
 
 ## License
 
-[MIT](https://github.com/GunshipPenguin/attounit/blob/master/LICENSE) © Rhys Rustad-Elliott
+[MIT](https://github.com/GunshipPenguin/attounit/blob/master/LICENSE) © Rhys
+Rustad-Elliott
