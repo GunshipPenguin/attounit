@@ -4,8 +4,8 @@
 
 A tiny (~100 lines), easy to use, header only unit testing framework for C.
 
-Originally created to test [my Altair 8800 / Intel 8080
-emulator](https://github.com/gunshippenguin/altair), AttoUnit was created with
+Originally created to test [my Intel 8080
+emulator](https://github.com/gunshippenguin/i8080), AttoUnit was created with
 three main goals in mind:
 
 - Be incredibly quick and easy to set up
