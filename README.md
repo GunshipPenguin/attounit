@@ -71,12 +71,10 @@ If both these tests were to fail, AttoUnit would output something like the
 following:
 
 ```
-✗ Assertion failed in test/strtol_test.c
-	Suite: strtol, Case: strtol_parses_integer
+✗ Assertion failed at strtol_test.c:11 (test/strtol_parses_integer)
 	res == 123
 	Expected 0 to equal 123
-✗ Assertion failed in test/strtol_test.c
-	Suite: strtol, Case: strtol_parses_integer_with_leading_space
+✗ Assertion failed at strtol_test.c:17 (test/strtol_parses_integer_with_leading_space)
 	res == 0
 	Expected 5 to equal 0
 =========================================================
@@ -119,8 +117,7 @@ ASSERT_GREATER_FMT(f1, f2, %f);
 will output:
 
 ```
-✗ Assertion failed in test.c
-	Suite: floats, Case: floats_equal
+✗ Assertion failed at float_test.c:12 (floats/floats_equal)
 	f1 > f2
 	Expected 0.500000 to be greater than 2.500000
 =========================================================

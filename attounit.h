@@ -2,7 +2,7 @@
  * AttoUnit - A tiny header only unit testing framework for C
  * https://github.com/GunshipPenguin/attounit
  * ------------------------------------------------------------
- * Copyright (c) 2018 Rhys Rustad-Elliott
+ * Copyright (c) 2018, 2021 Rhys Rustad-Elliott
  * Distributed under the MIT license, see accompanying file LICENSE
  */
 #include <stdio.h>
@@ -15,6 +15,9 @@
 #define RED   "\x1B[1;31m"
 #define GREEN "\x1B[1;32m"
 #define RESET "\x1B[0m"
+
+#define CHECK "\xE2\x9C\x93"
+#define X_MARK "\xE2\x9C\x97"
 
 #define MAX_NUM_TESTS 2048
 #define MAX_TEST_NAME 256
@@ -38,28 +41,30 @@ extern int num_assertions;
 extern int num_failed_assertions;
 extern int curr_test_num;
 
-#define GENERAL_BIN_ASSERT(a, b, op, desc, a_fmt, b_fmt); do { \
+#define GENERAL_BIN_ASSERT(a, b, op, desc, a_fmt, b_fmt) do { \
   num_assertions ++; \
   /* Deal with a and b not being pure by evaluating them only once */ \
   typeof(a) a_eval = a; \
   typeof(b) b_eval = b; \
   if (!(a_eval op b_eval)) { \
     num_failed_assertions ++; \
-    printf(RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
-    printf("\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
+    printf(RED X_MARK " Assertion failed" RESET " at %s:%d (%s/%s)\n", \
+      __FILE__, __LINE__, \
+      tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
     printf("\t" #a " " #op " " #b "\n"); \
     printf("\tExpected " #a_fmt " " #desc " " #b_fmt "\n", a_eval, b_eval); \
   } \
 } while(0)
 
-#define GENERAL_UNARY_ASSERT(val, op, desc, val_fmt); do { \
+#define GENERAL_UNARY_ASSERT(val, op, desc, val_fmt) do { \
   num_assertions ++; \
   /* Deal with val not being pure by evaluating it only once */ \
   typeof(val) val_eval = val; \
   if (!(op val_eval)) { \
     num_failed_assertions ++; \
-    printf(RED "✗ Assertion failed" RESET " in %s\n", __FILE__); \
-    printf("\tSuite: %s, Case: %s\n", tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
+    printf(RED X_MARK " Assertion failed" RESET " at %s:%d (%s/%s)\n", \
+      __FILE__, __LINE__, \
+      tests[curr_test_num].suite_name, tests[curr_test_num].test_name); \
     printf("\t" #op #val "\n"); \
     printf("\tExpected " #val_fmt " " #desc "\n", val_eval); \
   } \
@@ -68,8 +73,8 @@ extern int curr_test_num;
 #define ASSERT_TRUE(val) GENERAL_UNARY_ASSERT(val, , to be true, %d)
 #define ASSERT_FALSE(val) GENERAL_UNARY_ASSERT(val, !, to be false, %d)
 
-#define ASSERT_NULL(val) GENERAL_BIN_ASSERT(val, NULL, ==, to be null, %d)
-#define ASSERT_NOT_NULL(val) GENERAL_BIN_ASSERT(val, NULL, !=, to not be null, %d)
+#define ASSERT_NULL(val) GENERAL_UNARY_ASSERT(val, !, to be null, %p)
+#define ASSERT_NOT_NULL(val) GENERAL_UNARY_ASSERT(val, , to not be null, %p)
 
 #define ASSERT_EQUAL(a, b) GENERAL_BIN_ASSERT(a, b, ==, to equal, %d, %d)
 #define ASSERT_EQUAL_FMT(a, b, fmt) GENERAL_BIN_ASSERT(a, b, ==, to equal, fmt, fmt)
@@ -123,12 +128,11 @@ extern int curr_test_num;
     } \
     if (num_failed_assertions == 0) { \
       printf(GREEN FOOTER_STRING RESET); \
-      printf(GREEN "✓ All assertions passed" RESET " (%d assertions in %d test cases)\n", num_assertions, num_test_cases); \
+      printf(GREEN CHECK " All assertions passed" RESET " (%d assertions in %d test cases)\n", num_assertions, num_test_cases); \
       return 0; \
     } else { \
       printf(RED FOOTER_STRING RESET); \
-      printf(RED "✗ %d assertions failed\n" RESET, num_failed_assertions); \
+      printf(RED X_MARK " %d assertions failed\n" RESET, num_failed_assertions); \
       return 1; \
     } \
   }
-
