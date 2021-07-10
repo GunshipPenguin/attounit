@@ -23,8 +23,6 @@
 #define MAX_TEST_NAME 256
 #define MAX_SUITE_NAME 256
 
-#define FOOTER_STRING "=========================================================\n"
-
 struct test_info {
   char test_name[MAX_TEST_NAME];
   char suite_name[MAX_SUITE_NAME];
@@ -127,11 +125,9 @@ extern int curr_test_num;
       tests[curr_test_num].teardown(); \
     } \
     if (num_failed_assertions == 0) { \
-      printf(GREEN FOOTER_STRING RESET); \
       printf(GREEN CHECK " All assertions passed" RESET " (%d assertions in %d test cases)\n", num_assertions, num_test_cases); \
       return 0; \
     } else { \
-      printf(RED FOOTER_STRING RESET); \
       printf(RED X_MARK " %d assertions failed\n" RESET, num_failed_assertions); \
       return 1; \
     } \
